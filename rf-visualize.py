@@ -247,8 +247,8 @@ def visualize_snr_contours_on_floorplan(
     snr_map = np.asarray(snr_map, dtype=float)
     thresholds = np.asarray(thresholds, dtype=float)
 
-    if thresholds.ndim != 1 or thresholds.size != 3:
-        raise ValueError("thresholds must contain exactly 3 values to create 4 classes")
+    if thresholds.ndim != 1 or thresholds.size != 2:
+        raise ValueError("thresholds must contain exactly 2 values to create 3 classes")
 
     h, w = snr_map.shape
 
@@ -396,10 +396,10 @@ if __name__ == "__main__":
     parser.add_argument("--grid", type=str, default="entire_floorplan_grid.npy", help="Path to floorplan grid numpy file")
     parser.add_argument("--unit", type=float, default=0.25,help="Grid cell size in meters (e.g. 0.25 metres)")
     parser.add_argument("--exponent_n", type=float, default=2.622, help="Path loss exponent (e.g. 2.5 for indoor)")
-    parser.add_argument("--pl_d0", type=float, default=34, help="Path loss at reference distance d0 (e.g. 34 dB at 1 m)")
+    parser.add_argument("--pl_d0", type=float, default=34.93, help="Path loss at reference distance d0 (e.g. 34 dB at 1 m)")
     parser.add_argument("--p_wall", type=float, default=19.54, help="Additional loss per wall (e.g. 20 dB)")
     parser.add_argument("--p_window", type=float, default=15.64, help="Additional loss per window (e.g. 15 dB)")
     parser.add_argument("--p_door", type=float, default=1, help="Additional loss per door (e.g. 5 dB)")
-    parser.add_argument("--thresholds", type=float, nargs=3, default=[3, 7, 12], help="SNR thresholds for class borders (e.g. 3, 7, 12 dB)")
+    parser.add_argument("--thresholds", type=float, nargs=2, default=[0, 7], help="SNR thresholds for class borders (e.g. 0, 7 dB)")
     args = parser.parse_args()
     runner(args.floorplan, args.grid, args.unit, args.exponent_n, args.pl_d0, args.p_wall, args.p_window, args.p_door, args.thresholds)
